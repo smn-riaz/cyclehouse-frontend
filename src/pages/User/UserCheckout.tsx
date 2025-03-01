@@ -137,9 +137,9 @@ const UserCheckout = () => {
             <p className="text-xl font-semibold">Total: ${totalPrice.toFixed(2)}</p>
             <button
               onClick={handleCheckout}
-              className="px-4 py-2 bg-green-600 text-white rounded-md"
+              className="px-4 py-2 font-semibold bg-green-600 text-white rounded-md"
             >
-              Place Order
+              Confirm Order
             </button>
           </div>
         </div>

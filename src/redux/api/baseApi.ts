@@ -3,9 +3,10 @@ import { BaseQueryApi, BaseQueryFn, createApi, DefinitionType, FetchArgs, fetchB
 import { RootState } from "../store";
 import { logout, setUser } from "../features/auth/authSlice";
 import { toast } from "sonner";
+import { rootBackendApi } from "@/constants/api";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5002/api",
+  baseUrl: rootBackendApi,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).reducer.auth.token
@@ -27,7 +28,7 @@ const baseQueryWithRefreshToken:BaseQueryFn<FetchArgs,BaseQueryApi,DefinitionTyp
 
 
   if (result.error?.status === 401) {
-    const res = await fetch("http://localhost:5002/api/auth/refresh-token", {
+    const res = await fetch(`${rootBackendApi}/auth/refresh-token`, {
       method: "POST",
       credentials: "include",
     });
