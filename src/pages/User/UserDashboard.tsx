@@ -1,20 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useGetUserOrdersQuery } from "@/redux/api/orderApi";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { useAppSelector } from "@/redux/hook";
+import { Link } from "react-router-dom";
+import { LiaBicycleSolid } from "react-icons/lia";
 
-
-const user = 
-  { name: "Charlie Brown", email: "charlie@example.com" }
-
-
-const orderedProducts = [
-  { name: "Laptop", type: "Electronics", totalPrice: "$1,200", quantity: 2 },
-  { name: "Headphones", type: "Accessories", totalPrice: "$200", quantity: 1 },
-  { name: "Coffee Maker", type: "Appliances", totalPrice: "$150", quantity: 1 },
-];
-
-const totalLifetimeCost = "$32,450";
 
  const UserDashboard = () => {
+
+  const user = useAppSelector(useCurrentUser)
+  const res = useGetUserOrdersQuery(user?.id ?? "")
+  const userOrderInfo = res?.currentData?.data
+
+  const totalLifetimeCost = userOrderInfo?.filter((order:any) => order.status !=='cancelled').reduce((acc:number, order:any) => acc + order?.totalPrice, 0)
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
       
@@ -27,52 +27,34 @@ const totalLifetimeCost = "$32,450";
           <ul className="space-y-2">
             
               <p>
-             <span className="font-semibold"> Name: </span>{user.name}
+             <span className="font-semibold"> Eamil: </span>{user?.email}
               </p>
-              <p >
-              <span className="semibold">Email: </span>{user.email}
-              </p>
+              
       
           </ul>
         </CardContent>
       </Card>
 
     
-      <Card className="bg-white  rounded-xl col-span-1 md:col-span-2">
+      <Card className="bg-white  rounded-xl col-span-1">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">Ordered Products</CardTitle>
+          <CardTitle className="text-lg font-semibold">Ordered Summary</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Product Name</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Total Price</TableHead>
-                <TableHead>Quantity</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {orderedProducts.map((product, index) => (
-                <TableRow key={index}>
-                  <TableCell>{product.name}</TableCell>
-                  <TableCell>{product.type}</TableCell>
-                  <TableCell>{product.totalPrice}</TableCell>
-                  <TableCell>{product.quantity}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+         <div className="space-y-3">
+         <p className="font--semibold">Total Orders: <button className="bg-green-600 w-6 h-6 rounded-full text-white font-bold">{userOrderInfo?.length}</button></p>
+         <button className="bg-green-600 py-1 px-2 font-semibold text-white rounded-md "><Link className="flex text-lg items-center gap-2 justify-between" to="/user/orders">View orders  <LiaBicycleSolid /></Link></button>
+         </div>
         </CardContent>
       </Card>
 
      
       <Card className="bg-white  rounded-xl">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">Total Cost (Lifetime Orders)</CardTitle>
+          <CardTitle className="text-lg font-semibold">Total Cost </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold text-green-600">{totalLifetimeCost}</p>
+          <p className="text-2xl font-bold text-green-600">$ {totalLifetimeCost}</p>
         </CardContent>
       </Card>
 

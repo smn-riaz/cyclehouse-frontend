@@ -4,11 +4,15 @@ export const userSideLinks = [
         path: "dashboard",
     },
     {
-        title: "Checkout",
-        path: "checkout",
-    },
-    {
         title: "Orders",
         path: "orders",
     },
+    {
+        title: "Cart",
+        path: "cart",
+    },
+    {
+        title: "Checkout",
+        path: "checkout",
+    }
 ]

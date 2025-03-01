@@ -1,17 +1,20 @@
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {  useState } from "react";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "@/redux/api/authApi";
 import { toast } from "sonner";
-import { setUser } from "@/redux/features/auth/authSlice";
+import { setUser, TUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hook";
 import { verifyToken } from "@/utils/verifyToken";
-import { FormData, LoginResponse, UserInfo } from "@/types/Login.type";
+import { UserInfo } from "@/types/Login.type";
+
 
 
 
 const  Login = () => {
+
+  const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
 
@@ -29,27 +32,39 @@ const  Login = () => {
     register,
     handleSubmit
   } = useForm({defaultValues:{
-    email:"admin@gmail.com",
-    password:"admin123"
+    email:"user@gmail.com",
+    password:"user123"
   }})
 
 
 
 
-  const onSubmit = async (data: FormData) => {
-    const userInfo: UserInfo = {
-      email: data.email,
-      password: data.password,
-    };
+  const onSubmit:SubmitHandler<FieldValues> = async (data: FieldValues) => {
 
+  const toastId =  toast.loading("Logging in")
+
+    try {
+      const userInfo: UserInfo = {
+        email: data.email,
+        password: data.password,
+      };
+  
+      
+      const res = await login(userInfo).unwrap();
+  
+      const user = verifyToken(res.data.accessToken) as TUser
+      
+  
+      dispatch(setUser({ user, token: res.data.accessToken }));
+  
+      navigate(`/${user?.role}`)
+      toast.success("Logged in",{id:toastId, duration:1200})
     
-    const res: LoginResponse = await login(userInfo).unwrap();
-
-    const user = verifyToken(res.data.accessToken);
-
-    dispatch(setUser({ user, token: res.data.accessToken }));
-  };
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      toast.error("Something went wrong", {id:toastId,duration:1200})
+    }
+  }
   return (
     <div className="p-12 m-10">
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md space-y-6 border border-gray-200">

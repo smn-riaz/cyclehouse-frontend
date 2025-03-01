@@ -1,27 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { GrUpdate } from "react-icons/gr";
-import { MdDelete } from "react-icons/md";
+import { useGetAllUsersQuery } from "@/redux/api/userApi";
 
 
-const admins = [
-  {_id:'234',
-    name: "Mr. Rahman",
-    email:"mr@gmail.com",
-    role: "admin",
-    isActivated:true
-  },
-  {_id:'234',
-    name: "Mr. Rahman",
-    email:"mr@gmail.com",
-    role: "admin",
-    isActivated:false
-  },
-  
-];
 
-const tableHeadings = ["Admin Id",'Name','Email','Role','Status', 'Update','Delete']
+const tableHeadings = ["Admin Id",'Name','Email','Role','Status', ]
 
 const AllAdmins = () => {
+
+ const {data} = useGetAllUsersQuery(undefined)
+    
+     const admins = data?.data.filter((user:any) => user.role === 'admin')
 
   return (
     <div className="overflow-auto rounded-lg border  p-4 m-4">
@@ -34,15 +23,14 @@ const AllAdmins = () => {
           </tr>
         </thead>
         <tbody>
-          {admins.map((admin, index) => (
+          {admins?.map((admin:any, index:string) => (
             <tr key={index} className="border-b hover:bg-gray-100 text-center font-semibold">
               <td className="px-4 py-2 border">{admin._id}</td>
               <td className="px-4 py-2 border">{admin.name}</td>
               <td className="px-4 py-2 border">{admin.email}</td>
               <td className="px-4 py-2 border">{admin.role}</td>
               <td className="px-4 py-2 border">{admin.isActivated? "Active": <button  className="bg-red-600 text-white p-1 rounded-3xl">Inactive</button>}</td>
-              <td className="px-4 py-2 border"><GrUpdate /></td>
-              <td className="px-4 py-2 border"><MdDelete /></td>
+              
             </tr>
           ))}
         </tbody>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LiaBicycleSolid } from "react-icons/lia";
@@ -6,8 +7,24 @@ import { LuBadgeDollarSign } from "react-icons/lu";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { GrUserAdmin } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import { useGetAllOrdersQuery } from "@/redux/api/orderApi";
+import { useGetAllProductsQuery } from "@/redux/api/productApi";
+import { useGetAllUsersQuery } from "@/redux/api/userApi";
 
 const AdminDashboard = () => {
+
+  const users = useGetAllUsersQuery(undefined)
+  const orders = useGetAllOrdersQuery(undefined)
+  const products = useGetAllProductsQuery(undefined)
+     
+  const totalUsers = users?.data?.data?.filter((user:any) => user.role === 'user')
+  const totalAdmins = users?.data?.data?.filter((user:any) => user.role === 'admin')
+  const totalProducts = products?.data?.data
+  const totalOrders = orders?.data?.data
+  const totalRevenue = totalOrders?.reduce((acc:number, order:any) => acc + order?.totalPrice, 0);
+ 
+
+  
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-6">
@@ -19,7 +36,7 @@ const AdminDashboard = () => {
             <LiaBicycleSolid color="green" fontSize={25} />
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">120</p>
+            <p className="text-2xl font-bold">{totalProducts?.length}</p>
             <Link to="/admin/all-products">
               <Button className="mt-4 p-2 bg-green-600 hover:bg-green-600">
                 All Products
@@ -36,7 +53,7 @@ const AdminDashboard = () => {
             <FaShoppingCart color="green" fontSize={18} />
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">450</p>
+            <p className="text-2xl font-bold">{totalOrders?.length}</p>
             <Link to="/admin/all-orders">
               <Button className="mt-4 p-2 bg-green-600 hover:bg-green-600">
                 All Orders
@@ -53,7 +70,7 @@ const AdminDashboard = () => {
             <LuBadgeDollarSign color="green" fontSize={20} />
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">$25,000</p>
+            <p className="text-2xl font-bold">${totalRevenue}</p>
           </CardContent>
         </Card>
 
@@ -63,7 +80,7 @@ const AdminDashboard = () => {
             <FaPeopleGroup color="green" fontSize={22} />
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">5,000</p>
+            <p className="text-2xl font-bold">{totalUsers?.length}</p>
             <Link to="/admin/all-users">
               <Button className="mt-4 p-2 bg-green-600 hover:bg-green-600">
                 All Users
@@ -80,7 +97,7 @@ const AdminDashboard = () => {
             <GrUserAdmin color="green" fontSize={20} />
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">12</p>
+            <p className="text-2xl font-bold">{totalAdmins?.length}</p>
             <Link to="/admin/all-admins">
               <Button className="mt-4 p-2 bg-green-600 hover:bg-green-600">
                 All Admins

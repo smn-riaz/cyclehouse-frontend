@@ -13,12 +13,15 @@ import AllOrders from "@/pages/Admin/AllOrders";
 import UserDashboard from "@/pages/User/UserDashboard";
 import ContactPage from "@/pages/ContactPage";
 import HomePage from "@/pages/HomePage";
-import CheckOut from "@/pages/User/CheckOut";
 import RegisterUser from "@/pages/User/RegisterUser";
 import Login from "@/pages/Login";
 import ProtectedRoute from "@/components/layout/ProtectedRoute";
 import AdminLayout from "@/components/layout/AdminLayout";
 import UserLayout from "@/components/layout/UserLayout";
+import AllAdmins from "@/pages/Admin/AllAdmins";
+import UserOrders from "@/pages/User/UserOrders";
+import UserCart from "@/pages/User/UserCart";
+import UserCheckout from "@/pages/User/UserCheckout";
 
 
 
@@ -92,7 +95,7 @@ const router = createBrowserRouter([
             },
             {
                 path:"all-admins",
-                element: <AllUsers />
+                element: <AllAdmins/>
             },
             {
                 path:"all-orders",
@@ -113,13 +116,19 @@ const router = createBrowserRouter([
                 element: <UserDashboard />
             },
             {
-                path:"checkout",
-                element: <CheckOut />
+                path:"orders",
+                element: <UserOrders />
             },
             {
-                path:"orders",
-                element: <CheckOut />
-            }
+                path:"cart",
+                element: <UserCart />
+            },
+            {
+                path:"checkout",
+                element: <UserCheckout />
+            },
+            
+            
         ]
     },
 ])
