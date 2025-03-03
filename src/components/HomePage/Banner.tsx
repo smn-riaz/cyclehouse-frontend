@@ -15,7 +15,7 @@ const Banner = () => {
     const bicycles = data?.data?.slice(-4);
 
   return (
-   <div className="flex justify-center p-10">
+   <div className="flex justify-center px-6 sm:px-10 py-12 sm:py-16  sm:mx-16">
      <Carousel className="w-full max-w-4xl ">
   <div className="w-full ">
     <CarouselContent className=" flex ">

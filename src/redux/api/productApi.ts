@@ -1,16 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { baseApi } from "./baseApi";
 
 const productApi = baseApi.injectEndpoints({
     endpoints:(builder) => ({
 
-        getAllProducts:builder.query({
-          query:() => ({
-              url:'/products',
-              method:'GET',
-          }),
-          providesTags:['products']
-        }),
+      getAllProducts: builder.query({
+        query: (args) => {
+
+          console.log(args);
+
+          const params = new URLSearchParams();
+      
+          if (args) {
+            args.forEach((item: { name: string; value: any }) => {
+              params.append(item.name, item.value);
+            });
+          }
+      
+          return {
+            url: `/products?${params.toString()}`,
+            method: 'GET',
+          };
+        },
+        providesTags: ['products'],
+      }),      
 
         getSpecificProduct:builder.query({
           query:(id:string) => ({
