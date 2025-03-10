@@ -21,6 +21,9 @@ const AllUsers = () => {
      const handleDeactive = async(id:string) => {
 
      const toastId = toast.loading("Deactivating...")
+        setTimeout(() => {
+         toast.dismiss(toastId);
+       }, 2500);
 
       try {
         const result = await deactiveUser(id)

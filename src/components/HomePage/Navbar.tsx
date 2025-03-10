@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { logout, useCurrentUser } from "@/redux/features/auth/authSlice";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +17,8 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    setIsOpen(false)
+    toast.message("Logout successfully.",{duration:2000})
   };
 
   return (
@@ -24,7 +27,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between sm:px-10 h-16 items-center">
             <Link to="/">
-              <img width={120} src="/src/assets/logo.png" alt="" />
+              <img width={120} src="https://i.ibb.co.com/C5DWg9Sz/logo.png" alt="CycleHouse" />
             </Link>
 
             <div className="hidden md:flex items-center space-x-6 ">
@@ -66,7 +69,7 @@ const Navbar = () => {
              
             </div>
 
-            <div className="md:hidden">
+            <div className="md:hidden px-2">
               <Button
                 variant="ghost"
                 size="icon"
@@ -86,22 +89,22 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden bg-white shadow-md">
             <div className="p-4 space-y-4">
-              <Link to="/" className="block text-gray-700 hover:text-black">
+              <Link onClick={() => setIsOpen(false)} to="/" className="block text-gray-700 hover:text-black">
                 Home
               </Link>
-              <Link
+              <Link onClick={() => setIsOpen(false)}
                 to="/about"
                 className="block text-gray-700 hover:text-black"
               >
                 About
               </Link>
-              <Link
+              <Link onClick={() => setIsOpen(false)}
                 to="/bicycles"
                 className="block text-gray-700 hover:text-black"
               >
                 Bicycles
               </Link>
-              <Link
+              <Link onClick={() => setIsOpen(false)}
                 to="/contact"
                 className="block text-gray-700 hover:text-black"
               >
@@ -109,7 +112,7 @@ const Navbar = () => {
               </Link>
 
               {user?.role && (
-                <Link
+                <Link onClick={() => setIsOpen(false)}
                   to={`/${role}`}
                   className="block text-gray-700 hover:text-black"
                 >
@@ -126,7 +129,7 @@ const Navbar = () => {
                 </Button>
               ) : (
                 <Button className="bg-green-600 hover:bg-green-700 font-semibold">
-                  <Link to="/login">Login</Link>
+                  <Link onClick={() => setIsOpen(false)} to="/login">Login</Link>
                 </Button>
               )}
              

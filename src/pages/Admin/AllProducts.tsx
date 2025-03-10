@@ -32,6 +32,10 @@ const AllProducts = () => {
 
 const handleDelete = (id:string) => {
   const toastId = toast.loading("Deleting...");
+     setTimeout(() => {
+      toast.dismiss(toastId);
+    }, 2500);
+    
   try {
     deleteProduct(id)
     toast.success("Product Deleted successfully!", { id: toastId ,duration:2000});

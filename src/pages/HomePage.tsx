@@ -15,7 +15,7 @@ const HomePage = () => {
 
   const bicycles = data?.data.slice(0, 6);
   return (
-    <div>
+    <div className="overflow-hidden">
       <div className="my-16 py-10">
         <TopBanner />
       </div>
@@ -25,12 +25,12 @@ const HomePage = () => {
         <Banner />
       </div>
 
-      <div className="my-my-16 py-10">
+      <div className="my-16 py-10">
       <SectionHeadline title="Top selling Bicycles" />
         <TopSellingBicyle />
       </div>
 
-      <div className="my-my-16 py-10">
+      <div className="my-16 py-10">
         <SectionHeadline title="All collections" />
         <FeaturedBicycles bicycles={bicycles} />
         <div className="text-center">

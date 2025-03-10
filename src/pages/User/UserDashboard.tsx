@@ -12,6 +12,7 @@ import { LiaBicycleSolid } from "react-icons/lia";
   const user = useAppSelector(useCurrentUser)
   const res = useGetUserOrdersQuery(user?.id ?? "")
   const userOrderInfo = res?.currentData?.data
+  console.log(userOrderInfo);
 
   const totalLifetimeCost = userOrderInfo?.filter((order:any) => order.status !=='cancelled').reduce((acc:number, order:any) => acc + order?.totalPrice, 0)
 
@@ -27,7 +28,7 @@ import { LiaBicycleSolid } from "react-icons/lia";
           <ul className="space-y-2">
             
               <p>
-             <span className="font-semibold"> Email: </span>{user?.email}
+             <span className="font-semibold"> Email </span><br />{user?.email}
               </p>
               
       

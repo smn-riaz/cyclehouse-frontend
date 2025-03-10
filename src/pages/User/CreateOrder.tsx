@@ -15,6 +15,9 @@ const CreateOrder = () => {
   
   const handleCreateOrder = async() => {
     const toastId = toast.loading('Creating..')
+       setTimeout(() => {
+        toast.dismiss(toastId);
+      }, 2500);
     
     const orderData = {
       user:orderInfo?.user?.id,

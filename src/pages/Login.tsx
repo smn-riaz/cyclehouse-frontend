@@ -32,10 +32,7 @@ const  Login = () => {
   const {
     register,
     handleSubmit
-  } = useForm({defaultValues:{
-    email:"user@gmail.com",
-    password:"user123"
-  }})
+  } = useForm()
 
 
 
@@ -43,6 +40,9 @@ const  Login = () => {
   const onSubmit:SubmitHandler<FieldValues> = async (data: FieldValues) => {
 
   const toastId =  toast.loading("Logging in")
+  setTimeout(() => {
+    toast.dismiss(toastId);
+  }, 2500);
 
     try {
       const userInfo: UserInfo = {
@@ -67,7 +67,7 @@ const  Login = () => {
     }
   }
   return (
-    <div className="p-12 m-10">
+    <div className="p-4 sm:p-12 m-10 my-20">
       {
         user?.id ? <h1>Already Logged In</h1> :
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md space-y-6 border border-gray-200">
@@ -77,15 +77,15 @@ const  Login = () => {
 
           <div>
             <label className="block text-gray-700 font-semibold">Email:</label>
-            <input {...register("email")} className="border p-2 w-full rounded-md focus:ring-2 focus:ring-green-500" />
+            <input {...register("email")} required className="border p-2 w-full rounded-md focus:ring-2 focus:ring-green-500" />
            
           </div>
           <div>
             <label className="flex text-gray-700 font-semibold ">Password: <span className="text-bold text-lg mt-1 mx-2">{showPassword?<FaEyeSlash onClick={() => setShowPassword(!showPassword)}/>: <FaEye onClick={() => setShowPassword(!showPassword)}/>}</span></label>
-            <input type={showPassword ? "text" : "password"} minLength={6} {...register("password")} className="border p-2 w-full rounded-md focus:ring-2 focus:ring-green-500" /> 
+            <input type={showPassword ? "text" : "password"} required minLength={6} {...register("password")} className="border p-2 w-full rounded-md focus:ring-2 focus:ring-green-500" /> 
            
 
-            <p className="my-1">New to CycleHouse? <Link to="/register-user" ><u>Register Now</u></Link>
+            <p className="my-1">New to CycleHouse? <Link to="/register-user" ><br /><u>Register Now</u></Link>
             </p>
           </div>
           </div>

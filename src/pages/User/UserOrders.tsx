@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  useGetAllOrdersQuery,
-  useGetUserOrdersQuery,
-  useUpdateOrderStatusMutation,
+  useGetUserOrdersQuery
 } from "@/redux/api/orderApi";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hook";
-import { toast } from "sonner";
+
 
 const tableHeadings = [
   "Order Id",

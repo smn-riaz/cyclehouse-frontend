@@ -18,7 +18,7 @@ const TopBanner = () => {
       </div>
       <div className="md:w-1/2 flex justify-center flex-1">
         <img
-          src="/src/assets/topBanner.png"
+          src="https://i.ibb.co.com/pBhPHc3b/top-Banner.png"
           alt="Bicycle Banner"
           className=" w-full md:w-auto lg:max-w-xl xl:max-w-2xl object-cover"
         />

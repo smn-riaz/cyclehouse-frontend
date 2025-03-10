@@ -27,7 +27,7 @@ export default function Sidebar({role, sideLinks}:TSidebar) {
         )}
       >
         <div className="p-4 flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold"><img  width={80} src="/src/assets/logo.png" alt="" /></Link>
+        <Link to="/" className="text-xl font-bold"><img  width={80} src="https://i.ibb.co.com/C5DWg9Sz/logo.png" alt="CycleHouse" /></Link>
           <Button
             variant="ghost"
             className="lg:hidden"
@@ -40,7 +40,7 @@ export default function Sidebar({role, sideLinks}:TSidebar) {
 
         <nav className="p-4 space-y-4">
 {
-  sideLinks.map((link,index) => <Link key={index}
+  sideLinks.map((link,index) => <Link key={index} onClick={() => setIsOpen(false)}
     to={`/${role}/${link.path}`}
     className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-700"
   >   

@@ -28,6 +28,9 @@ const AllOrders = () => {
 
   const handleStatusUpdate = async (id: string, status: string) => {
     const toastId = toast.loading("Order status updating...")
+       setTimeout(() => {
+        toast.dismiss(toastId);
+      }, 2500);
     try {
       if (status !== "pending") {
         const res = await updateOrderStatus({ id, payload: { status } });

@@ -12,8 +12,8 @@ const baseQuery = fetchBaseQuery({
     const token = (getState() as RootState).reducer.auth.token
     if (token) {
       headers.set("authorization", `${token}`);
-      return headers;
-    }
+    } 
+    return headers;
   },
 });
 

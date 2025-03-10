@@ -29,6 +29,9 @@ const navigate = useNavigate()
   const onSubmit = async(data: FormData) => {
 
    const toastId = toast.loading('Creating..')
+   setTimeout(() => {
+    toast.dismiss(toastId);
+  }, 2500);
 
 const userInfo = {...data,role:"user",isActivated: true,
     needsPasswordChange:true
@@ -36,9 +39,10 @@ const userInfo = {...data,role:"user",isActivated: true,
   
   try {
     const result = await registerUser(userInfo)
+   
     if(result?.error){
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      toast.error((result?.error as any)?.message || "An error occurred")
+      toast.error((result?.error as any)?.data?.errorSources?.[0]?.message || "An error occurred");
     } else {
       toast.success("User registration successfully completed !",{id:toastId,duration:1500})
       navigate('/login')
@@ -50,7 +54,7 @@ const userInfo = {...data,role:"user",isActivated: true,
 
   }
   return (
-    <div className="p-12 m-10">
+    <div className="p-4 sm:p-12 m-10 my-20">
       <form  onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md space-y-6 border border-gray-200">
       <p className="font-bold text-2xl text-green-600 text-center">Register User</p>
     

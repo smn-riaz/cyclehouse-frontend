@@ -49,6 +49,9 @@ const UpdateProduct = () => {
 
 
     const toastId = toast.loading("Updating...");
+    setTimeout(() => {
+      toast.dismiss(toastId);
+    }, 2500);
 
     const productData = {
       _id: cycleId,
@@ -69,7 +72,7 @@ const UpdateProduct = () => {
   };
 
   return (
-    <div className="sm:p-6 p-3 m-3 sm:m-6 md:flex justify-between space-x-10">
+    <div className="sm:p-6 py-6 pr-2 my-8 sm:m-6 md:flex justify-between space-x-10">
       <div>
       <form
         onSubmit={handleSubmit(onSubmit)}

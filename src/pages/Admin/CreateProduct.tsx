@@ -47,8 +47,11 @@ const CreateProduct = () => {
       formData.append('file', data.image);
     }
 
+   
+
     try {
       const result = await createProduct(formData)
+    
       if(result?.error){
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         toast.error((result?.error as any)?.message || "An error occurred")
@@ -62,7 +65,7 @@ const CreateProduct = () => {
   };
 
   return (
-    <div className="p-6 m-6">
+    <div className="sm:p-6 py-8 sm:m-6 my-6">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md space-y-6 border border-gray-200"
