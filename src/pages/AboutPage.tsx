@@ -40,7 +40,6 @@ const AboutPage = () => {
       <p className="mt-4 text-gray-700">
         Visit our store or browse online to find the best Bicycles
       </p>
-      
     </section>
   </main>
 </div>

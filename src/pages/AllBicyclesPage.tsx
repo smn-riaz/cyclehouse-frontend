@@ -1,4 +1,5 @@
 import FeaturedBicycles from "@/components/HomePage/FeaturedBicycles";
+import SectionHeadline from "@/components/HomePage/SectionHeadline";
 import { useGetAllProductsQuery } from "@/redux/api/productApi";
 import { useEffect, useState } from "react";
 
@@ -28,7 +29,7 @@ const AllBicyclesPage = () => {
         name: "searchTerm",
         value: searchInput,
       })
-    }, 500);
+    }, 300);
   
     return () => clearTimeout(handler); 
   }, [searchInput]);
@@ -55,7 +56,7 @@ const AllBicyclesPage = () => {
 
   }, [selectedBrand, selectedType, selectedAvailability, searchQuery]);
 
- console.log(filterArray);
+
 
   const { data } = useGetAllProductsQuery(filterArray);
 
@@ -63,8 +64,8 @@ const AllBicyclesPage = () => {
 
   return (
     <div className="mt-20">
-      <div className="flex justify-between px-6">
-        <div className="flex space-x-4">
+      <div className="sm:flex space-y-2  justify-between px-6">
+        <div className="flex  space-x-4">
           <div>
             <label className="text-lg block font-medium mb-1">Brand</label>
             <select
@@ -136,16 +137,19 @@ const AllBicyclesPage = () => {
               placeholder="Search by bike name..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              className="w-full p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-1 border border-green-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             
           </div>
         </div>
       </div>
-      <h2 className="text-center text-green-600 text-3xl my-2 font-bold">
-        Our All Collections
-      </h2>
+      {
+        !bicycles? <h2 className="text-center font-semibold">Loading... </h2> : 
+        <div>
+          <SectionHeadline title="All Collections"  />
       <FeaturedBicycles bicycles={bicycles} />
+        </div>
+      }
     </div>
   );
 };

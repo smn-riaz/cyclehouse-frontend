@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/carousel";
 
 import { useGetAllProductsQuery } from "@/redux/api/productApi";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   const { data } = useGetAllProductsQuery(undefined);
@@ -33,11 +34,10 @@ const Banner = () => {
                 className="w-full border-green-500 border-2 h-auto max-h-48 object-contain rounded-lg"
               />
 
-              {/* Card Content */}
               <div className="mt-4 text-center">
-                  <h2 className="text-xl font-serif font-semibold">
-                    {bicycle.name}
-                  </h2>
+                 <Link to={`/bicycles/${bicycle._id}`}> <h2 className="text-xl font-serif font-semibold">
+                    <u>{bicycle.name}</u>
+                  </h2></Link>
                  
               </div>
             </div>

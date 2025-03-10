@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetAllProductsQuery } from "@/redux/api/productApi";
+import { Link } from "react-router-dom";
 
 
 
@@ -12,8 +13,8 @@ const TopSellingBicyle = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-6 sm:px-10 py-12 sm:py-16  sm:mx-16">
       {bicycles?.map((bicycle:any, index:number) => (
+        <Link key={index} to={`/bicycles/${bicycle._id}`}>
         <div
-          key={index}
           className="relative p-3 group overflow-hidden border border-gray-300 rounded-xl"
         >
           <img
@@ -27,6 +28,7 @@ const TopSellingBicyle = () => {
           </div>
           <div className="absolute inset-0 border border-white opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
         </div>
+        </Link>
       ))}
     </div>
   );

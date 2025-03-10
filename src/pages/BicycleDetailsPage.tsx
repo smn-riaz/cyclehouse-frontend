@@ -1,22 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { useGetSpecificProductQuery } from "@/redux/api/productApi";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
-import { addToCart } from "@/redux/features/cart/cartSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { useAppSelector } from "@/redux/hook";
 import {  useState } from "react";
-import {  Link, useLocation, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+import {  Link, useLocation, useNavigate} from "react-router-dom";
+
 
 
 const BicycleDetailsPage = () => {
 
   const user = useAppSelector(useCurrentUser)
+  const navigate = useNavigate()
 
   const location = useLocation();
 
-  const navigate = useNavigate()
 
-  const dispatch = useAppDispatch()
 
   const cycleId = location.pathname.split("/")[2];
 
@@ -36,19 +34,7 @@ const BicycleDetailsPage = () => {
   const decrease = () => quantity > 1 && setQuantity(quantity - 1);
 
 
-  const handleAddToCart = () => {
 
-    const cartItem = {
-      id:bicycle._id,
-      name:bicycle.name,
-      image:bicycle.image,
-      quantity,
-      price:quantity*bicycle.price
-    }
-    dispatch(addToCart(cartItem))
-    toast.success("Added to cart",{duration:1500})
-    navigate('/user/cart')
-  }
 
   if (isLoading) {
     return (
@@ -66,6 +52,16 @@ const BicycleDetailsPage = () => {
     );
   }
 
+  const handleOrder = () => {
+  
+    const orderInfo = {
+      user,
+      product:bicycle,
+      quantity,
+      totalPrice:quantity * bicycle.price
+    }
+    navigate(`/user/create-order`, {state:orderInfo});
+  }
 
 
   return (
@@ -117,9 +113,9 @@ const BicycleDetailsPage = () => {
           <div className="my-2">
             {(bicycle?.inStock && user?.id)  && (
              
-             <button onClick={() => handleAddToCart()} className=" bg-green-600 hover:bg-green-700 text-white px-1 rounded-md font-semibold text-lg py-2">
-             Add to Cart
-           </button>
+           <button onClick={() => handleOrder() } className=" bg-green-600 hover:bg-green-700 text-white px-1 rounded-md font-semibold text-lg py-2">
+            Checkout Order
+          </button>
           
             ) }
             {!bicycle?.inStock &&

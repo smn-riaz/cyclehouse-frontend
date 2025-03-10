@@ -4,8 +4,8 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "@/redux/api/authApi";
 import { toast } from "sonner";
-import { setUser, TUser } from "@/redux/features/auth/authSlice";
-import { useAppDispatch } from "@/redux/hook";
+import { setUser, TUser, useCurrentUser } from "@/redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { verifyToken } from "@/utils/verifyToken";
 import { UserInfo } from "@/types/Login.type";
 
@@ -20,6 +20,7 @@ const  Login = () => {
 
   const [login,{data}] = useLoginMutation()
 
+   const user = useAppSelector(useCurrentUser);
   
   if(data){
     toast(data?.message)
@@ -67,7 +68,9 @@ const  Login = () => {
   }
   return (
     <div className="p-12 m-10">
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md space-y-6 border border-gray-200">
+      {
+        user?.id ? <h1>Already Logged In</h1> :
+        <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md space-y-6 border border-gray-200">
       <p className="font-bold text-2xl text-green-600 text-center">Login</p>
     
           <div className="space-y-10">
@@ -88,6 +91,7 @@ const  Login = () => {
           </div>
       <button type="submit" className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">Submit</button>
     </form>
+      }
     </div>
   );
 }

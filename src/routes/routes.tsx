@@ -20,8 +20,8 @@ import AdminLayout from "@/components/layout/AdminLayout";
 import UserLayout from "@/components/layout/UserLayout";
 import AllAdmins from "@/pages/Admin/AllAdmins";
 import UserOrders from "@/pages/User/UserOrders";
-import UserCart from "@/pages/User/UserCart";
-import UserCheckout from "@/pages/User/UserCheckout";
+import CreateOrder from "@/pages/User/CreateOrder";
+import NotFound from "@/pages/NotFound";
 
 
 
@@ -59,6 +59,10 @@ const router = createBrowserRouter([
             {
                 path:"/contact",
                 element: <ContactPage />
+            },
+            {
+                path:"*",
+                element: <NotFound />
             },
         ]
 
@@ -120,14 +124,9 @@ const router = createBrowserRouter([
                 element: <UserOrders />
             },
             {
-                path:"cart",
-                element: <UserCart />
+                path:"create-order",
+                element: <CreateOrder />
             },
-            {
-                path:"checkout",
-                element: <UserCheckout />
-            },
-            
             
         ]
     },

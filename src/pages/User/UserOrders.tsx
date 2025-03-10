@@ -28,7 +28,9 @@ const UserOrders = () => {
 
   return (
     <div className="overflow-auto rounded-lg border  p-4 m-4">
-      <table className="w-full min-w-max border-collapse bg-white text-left text-sm text-gray-600">
+      {
+        !(orders?.length) ? <h1 className="text-center font-semibold text-gray-500 text-xl">There is no order.</h1> :
+        <table className="w-full min-w-max border-collapse bg-white text-left text-sm text-gray-600">
         <thead className="bg-gray-200 text-gray-800">
           <tr className="border-b bg-gray-100">
             <td
@@ -110,6 +112,7 @@ const UserOrders = () => {
           )}
         </tbody>
       </table>
+      }
     </div>
   );
 };

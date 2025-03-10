@@ -7,12 +7,9 @@ export const userSideLinks = [
         title: "Orders",
         path: "orders",
     },
+   
     {
-        title: "Cart",
-        path: "cart",
-    },
-    {
-        title: "Checkout",
-        path: "checkout",
+        title: "Create Order",
+        path: "create-order",
     }
 ]

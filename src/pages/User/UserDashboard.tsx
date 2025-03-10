@@ -27,7 +27,7 @@ import { LiaBicycleSolid } from "react-icons/lia";
           <ul className="space-y-2">
             
               <p>
-             <span className="font-semibold"> Eamil: </span>{user?.email}
+             <span className="font-semibold"> Email: </span>{user?.email}
               </p>
               
       
