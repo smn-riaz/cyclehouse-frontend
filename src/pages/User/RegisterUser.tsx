@@ -9,77 +9,127 @@ import { registerUserValidationSchema } from "@/validation/registerUser.validati
 import { useRegisterUserMutation } from "@/redux/api/userApi";
 import { toast } from "sonner";
 
-
-
 type FormData = z.infer<typeof registerUserValidationSchema>;
 
-
-
-const  RegisterUser = () => {
-
-const navigate = useNavigate()
-
-  const [registerUser] = useRegisterUserMutation()
-
-
+const RegisterUser = () => {
+  const navigate = useNavigate();
+  const [registerUser] = useRegisterUserMutation();
   const [showPassword, setShowPassword] = useState(false);
 
-  const { register, handleSubmit } = useForm<FormData>({resolver: zodResolver(registerUserValidationSchema)});
+  const { register, handleSubmit } = useForm<FormData>({
+    resolver: zodResolver(registerUserValidationSchema),
+  });
 
-  const onSubmit = async(data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    const toastId = toast.loading("Creating...");
+    setTimeout(() => {
+      toast.dismiss(toastId);
+    }, 2500);
 
-   const toastId = toast.loading('Creating..')
-   setTimeout(() => {
-    toast.dismiss(toastId);
-  }, 2500);
+    const userInfo = {
+      ...data,
+      role: "user",
+      isActivated: true,
+      needsPasswordChange: true,
+    };
 
-const userInfo = {...data,role:"user",isActivated: true,
-    needsPasswordChange:true
-  }
-  
-  try {
-    const result = await registerUser(userInfo)
-   
-    if(result?.error){
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      toast.error((result?.error as any)?.data?.errorSources?.[0]?.message || "An error occurred");
-    } else {
-      toast.success("User registration successfully completed !",{id:toastId,duration:1500})
-      navigate('/login')
+    try {
+      const result = await registerUser(userInfo);
+      if(result) {
+        toast.success("User registration successfully completed!", {
+          id: toastId,
+          duration: 1500,
+        });
+        navigate("/login");
+      } else {
+        toast.error("Something went error!")
+      }
+    } catch (error) {
+      toast.error("Something went wrong", { id: toastId, duration: 1500 });
     }
-  } catch (error) {
-    toast.error("Something went wrong",{id:toastId,duration:1500})
-  }
+  };
 
-
-  }
   return (
-    <div className="p-4 sm:p-12 m-10 my-20">
-      <form  onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md space-y-6 border border-gray-200">
-      <p className="font-bold text-2xl text-green-600 text-center">Register User</p>
-    
-          <div className="space-y-10">
-          <div>
-            <label className="block text-gray-700 font-semibold">Name:</label>
-            <input {...register("name")} className="border p-2 w-full rounded-md focus:ring-2 focus:ring-green-500" />
-     
-          </div>
-          <div>
-            <label className="block text-gray-700 font-semibold">Email:</label>
-            <input {...register("email")} className="border p-2 w-full rounded-md focus:ring-2 focus:ring-green-500" />
-         
-          </div>
-          <div>
-            <label className="flex text-gray-700 font-semibold ">Password: <span className="text-bold text-lg mt-1 mx-2">{showPassword?<FaEyeSlash onClick={() => setShowPassword(!showPassword)}/>: <FaEye onClick={() => setShowPassword(!showPassword)}/>}</span></label>
-            <input type={showPassword ? "text" : "password"} minLength={6} {...register("password")} className="border p-2 w-full rounded-md focus:ring-2 focus:ring-green-500" /> 
-          </div>
-          </div>
-          <p className="my-1">Already have an account? <Link to="/login" ><u>Login here</u></Link></p>
-      <button type="submit" className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">Register</button>
-    </form>
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-20 bg-gray-50">
+  <form
+    onSubmit={handleSubmit(onSubmit)}
+    className="w-1/3 max-w-xl bg-white border border-gray-200 rounded-2xl shadow-lg p-6 sm:p-8 md:p-10 space-y-6"
+  >
+    {/* Header */}
+    <div className="text-center">
+      <img
+        src="/logo.png"
+        alt="CycleHouse Logo"
+        className="h-14 mx-auto mb-2 object-contain"
+      />
+  
+
     </div>
+
+    {/* Name */}
+    <div>
+      <label className="block mb-1 text-gray-700 font-medium">Name</label>
+      <input
+        {...register("name")}
+        placeholder="Your full name"
+        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 outline-none transition"
+      />
+    </div>
+
+    {/* Email */}
+    <div>
+      <label className="block mb-1 text-gray-700 font-medium">Email</label>
+      <input
+        {...register("email")}
+        type="email"
+        placeholder="you@example.com"
+        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 outline-none transition"
+      />
+    </div>
+
+    {/* Password */}
+    <div>
+      <label className="block mb-1 text-gray-700 font-medium">Password</label>
+      <div className="relative">
+        <input
+          type={showPassword ? "text" : "password"}
+          {...register("password")}
+          minLength={6}
+          placeholder="Enter your password"
+          className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 outline-none transition"
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+        >
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </button>
+      </div>
+    </div>
+
+    {/* Already have account */}
+    <p className="text-sm text-center text-gray-600">
+      Already have an account?{" "}
+      <Link
+        to="/login"
+        className="text-green-600 underline hover:text-green-700"
+      >
+        Login here
+      </Link>
+    </p>
+
+    {/* Submit */}
+    <button
+      type="submit"
+      className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-md"
+    >
+      Register
+    </button>
+  </form>
+</div>
+
   );
-}
+};
 
-
-export default RegisterUser
+export default RegisterUser;
