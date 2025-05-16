@@ -16,12 +16,14 @@ const RegisterUser = () => {
   const [registerUser] = useRegisterUserMutation();
   const [showPassword, setShowPassword] = useState(false);
 
-  const { register, handleSubmit } = useForm<FormData>({
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm<FormData>({
+    
     resolver: zodResolver(registerUserValidationSchema),
   });
 
   const onSubmit = async (data: FormData) => {
-    const toastId = toast.loading("Creating...");
+ if(data.email && data.name && data.password){
+     const toastId = toast.loading("Creating...");
     setTimeout(() => {
       toast.dismiss(toastId);
     }, 2500);
@@ -45,25 +47,27 @@ const RegisterUser = () => {
         toast.error("Something went error!")
       }
     } catch (error) {
-      toast.error("Something went wrong", { id: toastId, duration: 1500 });
+      toast.error("Something went wrong", { id: toastId, duration: 1500 })
     }
+ } else {
+   const toastId = toast.loading("Creating...");
+   setTimeout(() => {
+     toast.dismiss(toastId);
+   }, 2500);
+   toast.warning("Data is missing", { id: toastId, duration: 1500 })
+ }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-20 bg-gray-50">
+<div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-6 md:pt-20 bg-gray-50">
   <form
     onSubmit={handleSubmit(onSubmit)}
-    className="w-1/3 max-w-xl bg-white border border-gray-200 rounded-2xl shadow-lg p-6 sm:p-8 md:p-10 space-y-6"
+    className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-2/5 max-w-xl bg-white border border-gray-200 rounded-2xl shadow-lg p-6 sm:p-8 md:p-10 space-y-6"
   >
     {/* Header */}
     <div className="text-center">
-      <img
-        src="/logo.png"
-        alt="CycleHouse Logo"
-        className="h-14 mx-auto mb-2 object-contain"
-      />
-  
-
+      <img src="/logo.png" alt="CycleHouse Logo" className="h-14 mx-auto mb-2 object-contain" />
+      <p className="text-gray-500">Register to continue to CycleHouse</p>
     </div>
 
     {/* Name */}
@@ -111,10 +115,7 @@ const RegisterUser = () => {
     {/* Already have account */}
     <p className="text-sm text-center text-gray-600">
       Already have an account?{" "}
-      <Link
-        to="/login"
-        className="text-green-600 underline hover:text-green-700"
-      >
+      <Link to="/login" className="text-green-600 underline hover:text-green-700">
         Login here
       </Link>
     </p>
@@ -124,10 +125,12 @@ const RegisterUser = () => {
       type="submit"
       className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-md"
     >
-      Register
+      {isSubmitting ? "Registering..." : "Register"}
     </button>
   </form>
 </div>
+
+
 
   );
 };
